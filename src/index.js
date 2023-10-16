@@ -1,14 +1,9 @@
-console.log(10);
+import { fetchBreeds } from "./cat-api";
+import { fetchCatByBreed } from "./cat-api";
 
-fetch('https://rickandmortyapi.com/api/character')
-  .then(response => {
-    console.log(response);
-    if (!response.ok) {
-      throw new Error(`Вимушена помилка статусу: ${response.status}`);
-      
-    }
-    // console.log(response.json());
-    return response.json();
-  })
-  .then(data => console.log(data))
-  .catch((err) => console.log(err));
+const refs = {
+    select: document.querySelector(".breed-select"),
+    loader: document.querySelector(".loader"),
+    select: document.querySelector(".breed-select"),
+    select: document.querySelector(".breed-select"),
+}
