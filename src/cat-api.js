@@ -39,3 +39,4 @@ export function fetchCatByBreed(breed_id) {
 //   .finally(function () {
 //     // always executed
 //   });
+console.log(20);
