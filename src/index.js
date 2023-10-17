@@ -1,10 +1,14 @@
 import { fetchBreeds } from './cat-api';
 import { fetchCatByBreed } from './cat-api';
 import SlimSelect from 'slim-select';
+// all modules
+import Notiflix from 'notiflix';
 
-new SlimSelect({
-  select: '#selectElement',
-});
+
+
+// new SlimSelect({
+//   select: '#selectElement',
+// });
 
 const refs = {
   select: document.querySelector('.breed-select'),
@@ -12,42 +16,54 @@ const refs = {
   error: document.querySelector('.error'),
   catsInfo: document.querySelector('.cat-info'),
 };
-// console.log(refs.select);
-// console.log(refs.loader);
-// console.log(refs.error);
-// console.log(refs.catsInfo);
+const arrCatInfo = [];
 
 refs.select.addEventListener('change', selectFromList);
+refs.catsInfo.classList.add('is-hidden');
+
+fetchBreeds()
+  .then(response => {
+    response.data.map(breed => {
+      arrCatInfo.push({ text: breed.name, value: breed.id });
+    });
+    
+    new SlimSelect({
+      select: '.breed-select',
+      data: arrCatInfo,
+    });
+    refs.loader.classList.add("is-hidden");
+  })
+  .catch(setError);
 
 function selectFromList(event) {
-  fetchBreeds()
-    .then(response => console.log(response.data))
-    .catch(error => console.log(error));
-  //   const breedId = event.currentTarget.value;
-
-  console.log(event);
+  const catId = event.currentTarget.selectedIndex;
+  const breedId = event.currentTarget[catId].value;
+  refs.loader.classList.remove("is-hidden");
+  refs.catsInfo.classList.add('is-hidden');
+  refs.catsInfo.innerHTML = "";
+  fetchCatByBreed(breedId).then(response => {
+    refs.catsInfo.innerHTML = createCardMarkup(response.data[0]);
+    refs.catsInfo.classList.remove('is-hidden');
+    refs.loader.classList.add("is-hidden");
+  })
+  .catch(setError)
 }
-selectFromList();
-// refs.catsInfo.insertAdjacentHTML("beforeend", createCardMarkup(data.results));
 
-function createCardMarkup(url, breeds) {
-  const { image, name, temperament, description } = breeds[0];
+function createCardMarkup({ url, breeds }) {
+  const { name, temperament, description } = breeds[0];
 
   return `
 <img src="${url}" alt="${name}" width="400">
 <h2>${name}</h2>
-<p>${temperament}</p>
 <p>${description}</p>
+<p><b>temperament:</b> ${temperament}</p>
 `;
 }
 
-// fetchBreeds()
-//   .then((response) => {
-//     console.log(response.data);})
-//   .catch(error => console.log(error));
-
-// fetchCatByBreed()
-//   .then(response => console.log(response.data))
-//   .catch(error => console.log(error));
-
-console.log(10);
+function setError(error) {
+  refs.catsInfo.classList.add('is-hidden');
+  refs.loader.classList.add("is-hidden");
+  Notiflix.Notify.failure(
+    'Oops! Something went wrong! Try reloading the page or select another cat breed!'
+  );
+}

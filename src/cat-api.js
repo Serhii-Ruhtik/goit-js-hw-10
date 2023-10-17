@@ -19,24 +19,5 @@ export function fetchCatByBreed(breed_id) {
     .get(`${BASE_URL}/${IMAGES}?breed_ids=${breed_id}`);
 }
 
-// fetchBreeds();
-// fetchCatByBreed("beng");
-//! .then(response => console.log(response.data))
-//! .catch(error => console.log(error));
-
-// fetchBreeds();
-// console.log(fetchBreeds());
-
-// axios.get('https://api.thecatapi.com/v1/breeds')
-//   .then(function (response) {
-//     // handle success
-//     console.log(response);
-//   })
-//   .catch(function (error) {
-//     // handle error
-//     console.log(error);
-//   })
-//   .finally(function () {
-//     // always executed
-//   });
-console.log(20);
+// fetchCatByBreed()
+// .then((response) => {console.log(response.data)})
