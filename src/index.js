@@ -2,9 +2,9 @@ import { fetchBreeds } from './cat-api';
 import { fetchCatByBreed } from './cat-api';
 import SlimSelect from 'slim-select';
 
-// new SlimSelect({
-//   select: '#selectElement',
-// })
+new SlimSelect({
+  select: '#selectElement',
+});
 
 const refs = {
   select: document.querySelector('.breed-select'),
@@ -23,7 +23,7 @@ function selectFromList(event) {
   fetchBreeds()
     .then(response => console.log(response.data))
     .catch(error => console.log(error));
-//   const breedId = event.currentTarget.value;
+  //   const breedId = event.currentTarget.value;
 
   console.log(event);
 }
